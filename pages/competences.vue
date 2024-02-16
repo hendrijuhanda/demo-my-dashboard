@@ -1,5 +1,7 @@
 <template>
-  <div>Competences page.</div>
+  <div>
+    <PageCompetences />
+  </div>
 </template>
 
 <script setup lang="ts">
