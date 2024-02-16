@@ -1,0 +1,31 @@
+{
+  "session": {
+    "user_id": 1
+  },
+  "users": [
+    {
+      "id": 1,
+      "first_name": "John",
+      "last_name": "Doe",
+      "password": "JohnDoe"
+    },
+    {
+      "id": 2,
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "password": "JaneDoe"
+    }
+  ],
+  "profiles": [
+    {
+      "user_id": 1,
+      "description": "Highly skilled and motivated Web Front-End Developer with 5 years of experience in designing and implementing responsive, user - friendly web interfaces.Proficient in HTML5, CSS3, and JavaScript, with a strong foundation in modern front - end frameworks such as React.js and Vue.js.",
+      "avatar": "/john.jpg"
+    },
+    {
+      "user_id": 2,
+      "description": "",
+      "avatar": "/jane.jpg"
+    }
+  ]
+}
