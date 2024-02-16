@@ -1,0 +1,17 @@
+name: demo-my-dashboard
+services:
+  nginx:
+    type: nginx
+    webroot: .output/public
+  node:
+    type: node:18
+    ports:
+      - 3000:3000
+tooling:
+  npm:
+    service: node
+  node:
+    service: node
+proxy:
+  nginx:
+    - demo-my-dashboard.lndo.site
