@@ -2,5 +2,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  modules: ["@nuxt/ui"],
+  ssr: false,
+
+  modules: ["@nuxt/ui", "@pinia/nuxt"],
+
+  ui: {
+    icons: ["logos"],
+  },
 });

@@ -15,3 +15,7 @@ tooling:
 proxy:
   nginx:
     - demo-my-dashboard.lndo.site
+events:
+  post-start:
+    - node:
+        - npm install && npm run generate
