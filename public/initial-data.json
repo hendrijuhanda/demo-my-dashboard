@@ -27,5 +27,24 @@
       "description": "",
       "avatar": "/jane.jpg"
     }
+  ],
+  "socials": [
+    {
+      "user_id": 1,
+      "links": [
+        {
+          "name": "facebook",
+          "link": "https://facebook.fake/john.doe"
+        },
+        {
+          "name": "whatsapp",
+          "link": "https://wa.fake/84574475457"
+        }
+      ]
+    },
+    {
+      "user_id": 2,
+      "links": []
+    }
   ]
 }

@@ -9,15 +9,17 @@
         <div>
           <template v-if="isEditing">
             <div class="flex items-center">
-              <UButton size="sm" color="gray" variant="solid" label="Cancel" class="mr-2" @click="isEditing = false" />
+              <UButton size="sm" color="gray" variant="solid" label="Cancel" class="mr-2" :disable="isSubmitting"
+                @click="isEditing = false" />
 
-              <UButton size="sm" color="primary" variant="solid" label="Save" />
+              <UButton size="sm" color="primary" variant="solid" label="Save" :loading="isSubmitting"
+                @click="handleSave" />
             </div>
           </template>
 
           <template v-else>
             <UButton icon="i-heroicons-pencil-square" size="sm" color="primary" variant="solid" label="Edit"
-              :trailing="false" @click="isEditing = true" />
+              :trailing="false" :disabled="isLoading" @click="handleEdit" />
           </template>
         </div>
       </div>
@@ -25,8 +27,8 @@
 
     <div class="">
       <template v-if="isEditing">
-        <div v-for="(item, index) in items" :key="index" class="flex items-center"
-          :class="{ 'mb-4': index !== items.length - 1 }">
+        <div v-for="(item, index) in inputItems" :key="index" class="flex items-center"
+          :class="{ 'mb-4': index !== inputItems.length - 1 }">
           <div class="flex items-center text-xl mr-4">
             <UIcon :name="iconName(item.name)" />
           </div>
@@ -34,51 +36,60 @@
           <div class="mr-4 flex-grow">{{ item.link }}</div>
 
           <div>
-            <UButton label="Delete" size="xs" color="red" />
+            <UButton label="Delete" size="xs" color="red" @click="handleDelete(index)" />
           </div>
         </div>
 
-        <div class="flex items-center mt-4">
+        <div v-if="inputItems.length !== socials.length" class="flex items-center" :class="{ 'mt-4': inputItems.length }">
           <div class="mr-4">
-            <USelectMenu v-model="selected" :options="socials">
+            <USelectMenu v-model="selected" :options="socialsFiltered">
               <template #leading>
                 <UIcon v-if="selected.icon" :name="(selected.icon as string)" class="w-4 h-4 mx-0.5" />
               </template>
             </USelectMenu>
           </div>
           <div class="mr-4 flex-grow">
-            <UInput placeholder="Input link" />
+            <UInput v-model="inputLink" placeholder="Input link" />
           </div>
           <div>
-            <UButton label="Add" size="xs" />
+            <UButton label="Add" size="xs" @click="handleAdd" />
           </div>
         </div>
-
-
       </template>
+
       <template v-else>
-        <div v-for="(item, index) in items" :key="index" class="flex items-center"
-          :class="{ 'mb-4': index !== items.length - 1 }">
-          <div class="flex items-center text-xl mr-4">
-            <UIcon :name="iconName(item.name)" />
+        <template v-if="isLoading">
+          <div class="flex justify-center py-8 w-full">
+            <LayoutLoader />
           </div>
+        </template>
+        <template v-else>
+          <div v-for="(item, index) in items" :key="index" class="flex items-center"
+            :class="{ 'mb-4': index !== items.length - 1 }">
+            <div class="flex items-center text-xl mr-4">
+              <UIcon :name="iconName(item.name)" />
+            </div>
 
-          <div>{{ item.link }}</div>
-        </div>
+            <div>{{ item.link }}</div>
+          </div>
+        </template>
       </template>
-
     </div>
   </UCard>
 </template>
 
 <script setup lang="ts">
-const items = [
-  { name: 'facebook', link: "https://facebook.exa/asd/asd" },
-  { name: 'instagram', link: "https://ig.exa/asd/asd" },
-  { name: 'whatsapp', link: "https://whatsapp.exam/asd/asd" }
-];
+import { useSocial } from '~/stores/social'
 
+const socialStore = useSocial();
+const { socials: items } = storeToRefs(socialStore)
+const { fetchSocial, updateSocial } = socialStore
+
+const isLoading = ref<boolean>(false);
+const isSubmitting = ref<boolean>(false);
 const isEditing = ref<boolean>(false);
+const inputItems = ref<any[]>([]);
+const inputLink = ref<string>('');
 
 const iconName = (key: string) => {
   const iconMap: any = {
@@ -118,5 +129,52 @@ const socials = [{
   icon: iconName('mastodon')
 }];
 
-const selected = ref(socials[0])
+const socialsFiltered = computed(() => socials.filter(social => {
+  const found = inputItems.value.find(item => item.name === social.id)
+
+  return !found;
+}))
+
+const selected = ref(socialsFiltered.value[0])
+
+const handleEdit = () => {
+  isEditing.value = true
+
+  inputItems.value = [...items.value]
+  inputLink.value = ''
+}
+
+const handleDelete = (index: number) => {
+  inputItems.value.splice(index, 1)
+}
+
+const handleAdd = () => {
+  inputItems.value.push({
+    name: selected.value.id,
+    link: inputLink.value
+  })
+
+  inputLink.value = ''
+}
+
+const handleSave = async () => {
+  isSubmitting.value = true
+
+  await updateSocial(inputItems.value).catch(console.error)
+
+  isSubmitting.value = false
+  isEditing.value = false
+}
+
+watch(socialsFiltered, (val) => {
+  selected.value = val[0]
+})
+
+onBeforeMount(async () => {
+  isLoading.value = true
+
+  await fetchSocial().catch(console.error)
+
+  isLoading.value = false
+})
 </script>
