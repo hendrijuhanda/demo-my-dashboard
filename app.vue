@@ -1,10 +1,13 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage v-if="isMounted" />
-  </NuxtLayout>
+  <div v-if="isMounted">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts">
+const { authenticateUser } = useAuth();
 const isMounted = ref<boolean>(false);
 
 onMounted(async () => {
@@ -15,6 +18,15 @@ onMounted(async () => {
       localStorage.setItem('db', JSON.stringify(data))
     })
   }
+
+  await authenticateUser().catch(e => {
+    if (e === 'unauthenticated') {
+      navigateTo('/login')
+    }
+    else {
+      console.error(e)
+    }
+  })
 
   isMounted.value = true
 })

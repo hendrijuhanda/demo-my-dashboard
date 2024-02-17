@@ -1,18 +1,17 @@
 {
-  "session": {
-    "user_id": 1
-  },
   "users": [
     {
       "id": 1,
       "first_name": "John",
       "last_name": "Doe",
+      "username": "johndoe",
       "password": "JohnDoe"
     },
     {
       "id": 2,
       "first_name": "Jane",
       "last_name": "Doe",
+      "username": "janedoe",
       "password": "JaneDoe"
     }
   ],

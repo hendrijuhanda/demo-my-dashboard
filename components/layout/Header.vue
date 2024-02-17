@@ -8,7 +8,7 @@
     <div>
       <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
         <div class="flex items-center">
-          <div class="mr-2">Hi, John</div>
+          <div class="mr-2">Hi, {{ auth.first_name }}</div>
           <UIcon name="i-heroicons-chevron-down-solid" />
         </div>
       </UDropdown>
@@ -18,11 +18,18 @@
 
 <script setup lang="ts">
 const { layoutState } = useLayoutState();
+const authStore = useAuth();
+const { auth } = storeToRefs(authStore);
+const { logUserOut } = authStore
 
 const items = [
   [{
     label: 'Logout',
-    icon: 'i-heroicons-arrow-left-start-on-rectangle-solid',
+    icon: 'i-heroicons-arrow-left-start-on-rectangle-solid', click: () => {
+      logUserOut().then(() => {
+        navigateTo('/login')
+      })
+    }
   }]
 ]
 </script>
