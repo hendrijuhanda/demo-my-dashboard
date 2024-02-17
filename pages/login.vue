@@ -2,6 +2,11 @@
 <template>
   <div class="w-full h-full flex justify-center items-center">
     <UCard class="w-96 max-w-full">
+      <div class="mb-4">
+        <UAlert icon="i-heroicons-exclamation-triangle" color="blue" variant="solid" title="Info"
+          description="Use these credential to login: username: johndoe / pass: JohnDoe or username: janedoe / pass: JaneDoe." />
+      </div>
+
       <div v-if="error" class="mb-4">
         <UAlert icon="i-heroicons-exclamation-triangle" color="red" variant="solid" title="Error!"
           description="Unauthenticated" />

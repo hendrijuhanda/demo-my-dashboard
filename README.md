@@ -1,75 +1,39 @@
-# Nuxt 3 Minimal Starter
+## Nuxt 3
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This app is built with Nuxt 3. Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Setup
+## Usage
 
-Make sure to install the dependencies:
+First, make sure to install the dependencies by installing npm dependencies.
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+To run development server, simply run command below.
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+The app should be running on `http://localhost:3000`.
 
-Build the application for production:
+The app is intended as SPA or Client-Side only. To build the app, run command below.
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+npm run generate
 ```
 
-Locally preview production build:
+The built result can be found in `.output/public` directory and can be deployed on any static hosting server.
 
-```bash
-# npm
-npm run preview
+## (Optional) Usage with Lando
 
-# pnpm
-pnpm run preview
+[Lando](https://lando.dev/) is local development environment DevOps tool, built on Docker. The repository includes `.lando.yml` config file and is already pre-scripted.
 
-# yarn
-yarn preview
+Assumed Lando is installed, simply run command below.
 
-# bun
-bun run preview
+```
+lando start
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Wait for the build process, and if everything goes well, the app should be virtually hosted on `http://demo-my-dashboard.lndo.site`. That's it.
